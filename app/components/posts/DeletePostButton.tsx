@@ -1,5 +1,8 @@
 "use client";
 
+import { useTransition } from "react";
+import { deletePostAction } from "@/app/actions/postActions";
+
 interface DeletePostButtonProps {
     postId: number;
 }
@@ -7,6 +10,9 @@ interface DeletePostButtonProps {
 export default function DeletePostButton({
     postId,
 }: DeletePostButtonProps) {
+    const [isPending, startTransition] =
+        useTransition();
+
     const handleDelete = () => {
         const confirmed = window.confirm(
             "⚠️ Are you sure you want to permanently delete this post?\n\nThis action cannot be undone."
@@ -14,14 +20,22 @@ export default function DeletePostButton({
 
         if (!confirmed) return;
 
-        console.log("Deleting post:", postId);
+        startTransition(async () => {
+            const result =
+                await deletePostAction(postId);
 
-        alert("🗑️ Post deleted successfully!");
+            if (result.success) {
+                alert("🗑️ Post deleted successfully!");
+            } else {
+                alert(result.message);
+            }
+        });
     };
 
     return (
         <button
             onClick={handleDelete}
+            disabled={isPending}
             className="
                 group
                 relative
@@ -37,7 +51,7 @@ export default function DeletePostButton({
                 px-5
                 py-3
                 font-semibold
-                text-white
+                text-slate-100
                 shadow-lg
                 shadow-red-500/20
                 transition-all
@@ -46,9 +60,11 @@ export default function DeletePostButton({
                 hover:shadow-xl
                 hover:shadow-red-500/40
                 active:scale-95
+                disabled:cursor-not-allowed
+                disabled:opacity-60
             "
         >
-            {/* Glow Effect */}
+            {/* Hover Effect */}
             <span className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
             {/* Trash Icon */}
@@ -68,7 +84,9 @@ export default function DeletePostButton({
             </svg>
 
             <span className="relative z-10">
-                Delete Post
+                {isPending
+                    ? "Deleting..."
+                    : "Delete Post"}
             </span>
         </button>
     );
