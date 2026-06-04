@@ -404,3 +404,246 @@ At the end of Phase 1, the application includes:
 This phase establishes the core user interface that will be extended in later phases with dynamic routing, API routes, server actions, metadata management, search functionality, analytics, and blog management features.
 
 ---
+
+# Phase 2: Blog Posts Management & Dynamic Routing
+
+## Objective
+
+The goal of Phase 2 is to implement the core blog management functionality by creating a dedicated posts module, enabling dynamic blog post routing, and introducing interactive client-side features. This phase focuses on displaying blog content, managing posts through reusable forms, and exploring Next.js App Router features such as dynamic routes, loading states, and client components.
+
+---
+
+## Features Implemented
+
+### 1. Blog Posts Listing Page
+
+A dedicated posts management page was created within the dashboard to display all available blog posts.
+
+The page provides:
+
+* Overview of all blog posts
+* Reusable post listing structure
+* Navigation to create and edit posts
+* Foundation for future API integration
+
+---
+
+### 2. Create Post Page
+
+A new post creation page was implemented using a reusable form component.
+
+Features include:
+
+* Post title input
+* Category input
+* Content textarea
+* Form validation using required fields
+* Client-side state management with React Hooks
+
+The form currently uses mock submission handling and prepares the application for future Server Actions integration.
+
+---
+
+### 3. Reusable Create Post Form Component
+
+A reusable `CreatePostForm` component was developed to handle post creation.
+
+Responsibilities include:
+
+* Managing form state
+* Handling user input
+* Processing form submission
+* Resetting fields after successful submission
+
+This component demonstrates the use of Client Components and React state management.
+
+---
+
+### 4. Edit Post Form
+
+A reusable `EditPostForm` component was created to support updating existing blog posts.
+
+Features include:
+
+* Pre-filled form values
+* Editable title, category, and content fields
+* Form submission handling
+* Update workflow simulation
+
+This component will later be connected to Server Actions and database operations.
+
+---
+
+### 5. Dynamic Edit Post Route
+
+Dynamic routing was implemented for editing individual blog posts.
+
+Route structure:
+
+```text
+/dashboard/posts/edit/[id]
+```
+
+Examples:
+
+```text
+/dashboard/posts/edit/1
+/dashboard/posts/edit/2
+/dashboard/posts/edit/3
+```
+
+The route dynamically retrieves the post identifier and renders the corresponding edit interface.
+
+---
+
+### 6. Dynamic Blog Post Pages
+
+A public-facing blog route was created using Next.js Dynamic Routing.
+
+Route structure:
+
+```text
+/blog/[id]
+```
+
+Examples:
+
+```text
+/blog/1
+/blog/2
+/blog/3
+```
+
+Each route displays content for a specific blog post based on its unique identifier.
+
+---
+
+### 7. Search Posts Component
+
+A reusable search component was implemented to support client-side post searching.
+
+Features include:
+
+* Real-time search input
+* Controlled component pattern
+* Search callback functionality
+* Preparation for filtering and debouncing
+
+This component introduces interactive UI behavior using Client Components.
+
+---
+
+### 8. Delete Post Functionality
+
+A reusable delete component was added to support post removal actions.
+
+Features include:
+
+* Delete confirmation dialog
+* Post identification handling
+* User feedback after deletion
+
+This functionality currently uses mock behavior and prepares the application for future data mutations.
+
+---
+
+### 9. Loading State
+
+A route-level loading UI was implemented for the posts section.
+
+Benefits include:
+
+* Improved user experience
+* Visual feedback during page transitions
+* Demonstration of Next.js loading conventions
+
+---
+
+### 10. Custom Not Found Handling
+
+The application supports custom error handling when invalid routes or blog post IDs are accessed.
+
+Features include:
+
+* Custom 404 page
+* Invalid post detection
+* User-friendly navigation back to the dashboard
+
+---
+
+## Next.js Concepts Covered
+
+Phase 2 demonstrates the following Next.js App Router concepts:
+
+* Dynamic Routing
+* Route Parameters
+* Client Components
+* React State Management
+* Form Handling
+* Loading UI
+* Not Found Pages
+* Component Reusability
+* Dashboard Navigation
+* Interactive User Interfaces
+
+---
+
+## Folder Structure Used in Phase 2
+
+```text
+app
+├── blog
+│   └── [id]
+│       └── page.tsx
+│
+├── dashboard
+│   └── posts
+│       ├── page.tsx
+│       ├── loading.tsx
+│       │
+│       ├── create
+│       │   └── page.tsx
+│       │
+│       └── edit
+│           └── [id]
+│               └── page.tsx
+
+components
+├── posts
+│   ├── CreatePostForm.tsx
+│   ├── EditPostForm.tsx
+│   ├── SearchPosts.tsx
+│   └── DeletePostButton.tsx
+```
+
+---
+
+## Output
+
+At the end of Phase 2, the application includes:
+
+✔ Blog Posts Management Page
+
+✔ Create Post Page
+
+✔ Create Post Form
+
+✔ Edit Post Form
+
+✔ Dynamic Edit Routes
+
+✔ Dynamic Blog Post Pages
+
+✔ Search Posts Component
+
+✔ Delete Post Functionality
+
+✔ Loading UI
+
+✔ Custom Not Found Handling
+
+✔ Reusable Post Components
+
+This phase establishes the complete blog post management workflow and prepares the application for Phase 3, where API Routes, data services, and Server Actions will be introduced to enable real data handling and persistence.
+
+---
