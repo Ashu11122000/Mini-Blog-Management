@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { updatePostAction } from "@/app/actions/postActions";
 
 interface EditPostFormProps {
     id: number;
@@ -15,28 +16,23 @@ export default function EditPostForm({
     initialCategory,
     initialContent,
 }: EditPostFormProps) {
-    const [title, setTitle] = useState(initialTitle);
-    const [category, setCategory] = useState(initialCategory);
-    const [content, setContent] = useState(initialContent);
+    const formRef = useRef<HTMLFormElement>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const [contentLength, setContentLength] =
+        useState(initialContent.length);
 
-        console.log({
+    async function handleAction(formData: FormData) {
+        const result = await updatePostAction(
             id,
-            title,
-            category,
-            content,
-        });
+            formData
+        );
 
-        alert("Post updated successfully!");
-    };
-
-    const handleReset = () => {
-        setTitle(initialTitle);
-        setCategory(initialCategory);
-        setContent(initialContent);
-    };
+        if (result.success) {
+            alert("✅ Post updated successfully!");
+        } else {
+            alert(result.message);
+        }
+    }
 
     return (
         <div className="max-w-5xl mx-auto">
@@ -47,13 +43,14 @@ export default function EditPostForm({
                         Edit Post
                     </h1>
 
-                    <p className="mt-2 text-slate-500">
+                    <p className="mt-2 text-slate-600">
                         Update and manage your blog content.
                     </p>
                 </div>
 
                 <div className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2">
                     <span className="h-2 w-2 rounded-full bg-blue-500"></span>
+
                     <span className="text-sm font-medium text-blue-700">
                         Post ID: #{id}
                     </span>
@@ -62,13 +59,13 @@ export default function EditPostForm({
 
             {/* Form */}
             <form
-                onSubmit={handleSubmit}
+                ref={formRef}
+                action={handleAction}
                 className="
                     rounded-3xl
                     border
                     border-slate-200
-                    bg-white/80
-                    backdrop-blur-xl
+                    bg-white
                     p-8
                     shadow-[0_20px_60px_rgba(0,0,0,0.08)]
                     space-y-6
@@ -81,9 +78,10 @@ export default function EditPostForm({
                     </label>
 
                     <input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Enter post title"
+                        type="text"
+                        name="title"
+                        defaultValue={initialTitle}
+                        required
                         className="
                             w-full
                             rounded-2xl
@@ -92,7 +90,7 @@ export default function EditPostForm({
                             bg-white
                             px-5
                             py-4
-                            text-slate-700
+                            text-slate-800
                             outline-none
                             transition-all
                             duration-300
@@ -110,9 +108,10 @@ export default function EditPostForm({
                     </label>
 
                     <input
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        placeholder="Technology, Design, Business..."
+                        type="text"
+                        name="category"
+                        defaultValue={initialCategory}
+                        required
                         className="
                             w-full
                             rounded-2xl
@@ -121,13 +120,100 @@ export default function EditPostForm({
                             bg-white
                             px-5
                             py-4
-                            text-slate-700
+                            text-slate-800
                             outline-none
                             transition-all
                             duration-300
                             focus:border-indigo-500
                             focus:ring-4
                             focus:ring-indigo-100
+                        "
+                    />
+                </div>
+
+                {/* Author */}
+                <div>
+                    <label className="mb-2 block text-sm font-semibold text-emerald-700">
+                        Author
+                    </label>
+
+                    <input
+                        type="text"
+                        name="author"
+                        placeholder="Author Name"
+                        className="
+                            w-full
+                            rounded-2xl
+                            border
+                            border-slate-300
+                            bg-white
+                            px-5
+                            py-4
+                            text-slate-800
+                            outline-none
+                            transition-all
+                            duration-300
+                            focus:border-emerald-500
+                            focus:ring-4
+                            focus:ring-emerald-100
+                        "
+                    />
+                </div>
+
+                {/* Tags */}
+                <div>
+                    <label className="mb-2 block text-sm font-semibold text-amber-700">
+                        Tags
+                    </label>
+
+                    <input
+                        type="text"
+                        name="tags"
+                        placeholder="nextjs, react, typescript"
+                        className="
+                            w-full
+                            rounded-2xl
+                            border
+                            border-slate-300
+                            bg-white
+                            px-5
+                            py-4
+                            text-slate-800
+                            outline-none
+                            transition-all
+                            duration-300
+                            focus:border-amber-500
+                            focus:ring-4
+                            focus:ring-amber-100
+                        "
+                    />
+                </div>
+
+                {/* Image */}
+                <div>
+                    <label className="mb-2 block text-sm font-semibold text-pink-700">
+                        Featured Image
+                    </label>
+
+                    <input
+                        type="text"
+                        name="image"
+                        placeholder="/images/blog-1.jpg"
+                        className="
+                            w-full
+                            rounded-2xl
+                            border
+                            border-slate-300
+                            bg-white
+                            px-5
+                            py-4
+                            text-slate-800
+                            outline-none
+                            transition-all
+                            duration-300
+                            focus:border-pink-500
+                            focus:ring-4
+                            focus:ring-pink-100
                         "
                     />
                 </div>
@@ -140,15 +226,20 @@ export default function EditPostForm({
                         </label>
 
                         <span className="text-xs font-medium text-slate-500">
-                            {content.length} characters
+                            {contentLength} characters
                         </span>
                     </div>
 
                     <textarea
                         rows={12}
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="Update your blog content..."
+                        name="content"
+                        defaultValue={initialContent}
+                        required
+                        onChange={(e) =>
+                            setContentLength(
+                                e.target.value.length
+                            )
+                        }
                         className="
                             w-full
                             resize-none
@@ -158,7 +249,7 @@ export default function EditPostForm({
                             bg-white
                             px-5
                             py-4
-                            text-slate-700
+                            text-slate-800
                             outline-none
                             transition-all
                             duration-300
@@ -174,10 +265,6 @@ export default function EditPostForm({
                     <button
                         type="submit"
                         className="
-                            inline-flex
-                            items-center
-                            justify-center
-                            gap-2
                             rounded-2xl
                             bg-gradient-to-r
                             from-blue-600
@@ -186,20 +273,18 @@ export default function EditPostForm({
                             px-8
                             py-4
                             font-semibold
-                            text-white
+                            text-slate-100
                             shadow-lg
                             transition-all
                             duration-300
                             hover:scale-[1.02]
-                            hover:shadow-xl
                         "
                     >
                         Save Changes
                     </button>
 
                     <button
-                        type="button"
-                        onClick={handleReset}
+                        type="reset"
                         className="
                             rounded-2xl
                             border
@@ -207,7 +292,7 @@ export default function EditPostForm({
                             px-8
                             py-4
                             font-medium
-                            text-slate-600
+                            text-slate-700
                             transition-all
                             duration-300
                             hover:bg-slate-100
