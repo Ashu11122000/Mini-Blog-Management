@@ -101,79 +101,153 @@ MINI-BLOG-MANAGEMENT
 │   │   ├── layout.tsx
 │   │   ├── page.tsx
 │   │   │
-│   │   └── posts
-│   │       ├── page.tsx
-│   │       │
-│   │       └── create
-│   │           └── page.tsx
+│   │   ├── posts
+│   │   │   ├── page.tsx
+│   │   │   ├── loading.tsx
+│   │   │   │
+│   │   │   ├── create
+│   │   │   │   └── page.tsx
+│   │   │   │
+│   │   │   └── edit
+│   │   │       └── [id]
+│   │   │           └── page.tsx
+│   │   │
+│   │   ├── categories
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── comments
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── tags
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── analytics
+│   │   │   └── page.tsx
+│   │   │
+│   │   └── settings
+│   │       └── page.tsx
 │   │
 │   ├── blog
 │   │   └── [id]
 │   │       └── page.tsx
 │   │
 │   ├── api
-│   │   └── posts
+│   │   │
+│   │   ├── posts
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── categories
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── comments
+│   │   │   └── route.ts
+│   │   │
+│   │   └── analytics
 │   │       └── route.ts
 │   │
 │   └── actions
-│       └── postActions.ts
+│       ├── postActions.ts
+│       ├── categoryActions.ts
+│       └── commentActions.ts
 │
 ├── components
+│   │
+│   ├── dashboard
+│   │   │
+│   │   ├── Sidebar.tsx
+│   │   ├── DashboardHeader.tsx
+│   │   ├── DashboardStats.tsx
+│   │   ├── StatsCard.tsx
+│   │   ├── QuickActions.tsx
+│   │   ├── CategoryChart.tsx
+│   │   ├── RecentPostsTable.tsx
+│   │   ├── UserProfileCard.tsx
+│   │   └── NotificationBell.tsx
+│   │
+│   ├── posts
+│   │   │
+│   │   ├── PostCard.tsx
+│   │   ├── PostList.tsx
+│   │   ├── SearchPosts.tsx
+│   │   ├── CreatePostForm.tsx
+│   │   ├── EditPostForm.tsx
+│   │   └── DeletePostButton.tsx
+│   │
+│   ├── categories
+│   │   ├── CategoryList.tsx
+│   │   └── CategoryForm.tsx
+│   │
+│   ├── comments
+│   │   ├── CommentList.tsx
+│   │   └── CommentCard.tsx
+│   │
+│   ├── charts
+│   │   ├── ViewsChart.tsx
+│   │   ├── PostsChart.tsx
+│   │   └── CategoryDistributionChart.tsx
 │   │
 │   ├── layout
 │   │   ├── Navbar.tsx
 │   │   ├── Footer.tsx
 │   │   └── Container.tsx
 │   │
-│   ├── posts
-│   │   ├── PostCard.tsx
-│   │   ├── PostList.tsx
-│   │   ├── SearchPosts.tsx
-│   │   └── CreatePostForm.tsx
-│   │
 │   └── ui
 │       ├── Button.tsx
 │       ├── Input.tsx
 │       ├── Textarea.tsx
+│       ├── Select.tsx
+│       ├── Modal.tsx
 │       ├── Card.tsx
-│       └── Loader.tsx
+│       ├── Badge.tsx
+│       ├── Loader.tsx
+│       ├── Table.tsx
+│       └── EmptyState.tsx
 │
 ├── data
-│   └── posts.ts
+│   ├── posts.ts
+│   ├── categories.ts
+│   └── comments.ts
+│
+├── hooks
+│   ├── useSearchPosts.ts
+│   ├── useDebounce.ts
+│   └── useDashboardStats.ts
 │
 ├── lib
 │   ├── api.ts
+│   ├── constants.ts
 │   ├── helpers.ts
-│   └── constants.ts
+│   └── metadata.ts
 │
 ├── services
-│   └── postService.ts
+│   ├── postService.ts
+│   ├── categoryService.ts
+│   ├── analyticsService.ts
+│   └── commentService.ts
 │
 ├── types
-│   └── post.ts
-│
-├── hooks
-│   └── useSearchPosts.ts
+│   ├── post.ts
+│   ├── category.ts
+│   ├── comment.ts
+│   └── dashboard.ts
 │
 ├── public
+│   │
 │   ├── images
+│   │   ├── logo.png
+│   │   ├── avatar.png
+│   │   ├── blog-1.jpg
+│   │   ├── blog-2.jpg
 │   │   └── placeholder.jpg
 │   │
-│   ├── next.svg
-│   ├── vercel.svg
-│   └── globe.svg
-│
-├── .next
-├── node_modules
+│   └── icons
 │
 ├── .gitignore
-├── AGENTS.md
-├── CLAUDE.md
 ├── eslint.config.mjs
 ├── next-env.d.ts
 ├── next.config.ts
-├── package-lock.json
 ├── package.json
+├── package-lock.json
 ├── postcss.config.mjs
 ├── README.md
 └── tsconfig.json
