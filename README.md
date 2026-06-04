@@ -81,3 +81,100 @@ This project demonstrates the following Next.js concepts:
 * Apply responsive styling using Tailwind CSS.
 
 The following sections will cover the implementation of each requirement in detail.
+
+---
+
+## Initial Folder Structure
+```text
+MINI-BLOG-MANAGEMENT
+│
+├── app
+│   │
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── loading.tsx
+│   ├── not-found.tsx
+│   │
+│   ├── dashboard
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   │
+│   │   └── posts
+│   │       ├── page.tsx
+│   │       │
+│   │       └── create
+│   │           └── page.tsx
+│   │
+│   ├── blog
+│   │   └── [id]
+│   │       └── page.tsx
+│   │
+│   ├── api
+│   │   └── posts
+│   │       └── route.ts
+│   │
+│   └── actions
+│       └── postActions.ts
+│
+├── components
+│   │
+│   ├── layout
+│   │   ├── Navbar.tsx
+│   │   ├── Footer.tsx
+│   │   └── Container.tsx
+│   │
+│   ├── posts
+│   │   ├── PostCard.tsx
+│   │   ├── PostList.tsx
+│   │   ├── SearchPosts.tsx
+│   │   └── CreatePostForm.tsx
+│   │
+│   └── ui
+│       ├── Button.tsx
+│       ├── Input.tsx
+│       ├── Textarea.tsx
+│       ├── Card.tsx
+│       └── Loader.tsx
+│
+├── data
+│   └── posts.ts
+│
+├── lib
+│   ├── api.ts
+│   ├── helpers.ts
+│   └── constants.ts
+│
+├── services
+│   └── postService.ts
+│
+├── types
+│   └── post.ts
+│
+├── hooks
+│   └── useSearchPosts.ts
+│
+├── public
+│   ├── images
+│   │   └── placeholder.jpg
+│   │
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── globe.svg
+│
+├── .next
+├── node_modules
+│
+├── .gitignore
+├── AGENTS.md
+├── CLAUDE.md
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.md
+└── tsconfig.json
+```
