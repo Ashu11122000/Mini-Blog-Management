@@ -1,5 +1,9 @@
 import DashboardStats from "../components/dashboard/DashboardStats";
 import RecentPostsTable from "../components/dashboard/RecentPostsTable";
+import QuickActions from "../components/dashboard/QuickActions";
+import UserProfileCard from "../components/dashboard/UserProfileCard";
+import CategoryChart from "../components/dashboard/CategoryChart";
+
 import { PlusCircle, FileText, BarChart3 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -35,7 +39,6 @@ export default function DashboardPage() {
                         </p>
                     </div>
 
-                    {/* Quick Actions */}
                     <div className="flex flex-wrap gap-3">
                         <button className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-medium text-indigo-700 shadow-lg transition hover:scale-105">
                             <PlusCircle size={18} />
@@ -55,11 +58,23 @@ export default function DashboardPage() {
                 </div>
             </section>
 
-            {/* Analytics Section */}
+            {/* Statistics */}
             <DashboardStats />
 
-            {/* Recent Posts */}
-            <RecentPostsTable />
+            {/* Quick Actions */}
+            <QuickActions />
+
+            {/* Main Content */}
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+                <div className="xl:col-span-2">
+                    <RecentPostsTable />
+                </div>
+
+                <UserProfileCard />
+            </div>
+
+            {/* Category Analytics */}
+            <CategoryChart />
         </div>
     );
 }
