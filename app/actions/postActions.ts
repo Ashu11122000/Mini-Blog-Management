@@ -10,26 +10,71 @@ import {
   deletePost,
 } from "../services/postService";
 
-export async function createPostAction(formData: FormData) {
+export async function createPostAction(
+  formData: FormData
+) {
   try {
-    const title = formData.get("title") as string;
-    const category = formData.get("category") as string;
-    const author = formData.get("author") as string;
-    const content = formData.get("content") as string;
+    const title = formData
+      .get("title")
+      ?.toString()
+      .trim();
+
+    const category = formData
+      .get("category")
+      ?.toString()
+      .trim();
+
+    const author = formData
+      .get("author")
+      ?.toString()
+      .trim();
+
+    const content = formData
+      .get("content")
+      ?.toString()
+      .trim();
 
     const tags =
-      (formData.get("tags") as string)
-        ?.split(",")
-        .map((tag) => tag.trim()) || [];
+      formData
+        .get("tags")
+        ?.toString()
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean) || [];
 
     const image =
-      (formData.get("image") as string) ||
+      formData
+        .get("image")
+        ?.toString()
+        .trim() ||
       "/images/placeholder.jpg";
 
-    if (!title || !category || !author || !content) {
+    if (
+      !title ||
+      !category ||
+      !author ||
+      !content
+    ) {
       return {
         success: false,
-        message: "All fields are required",
+        message:
+          "All required fields must be completed.",
+      };
+    }
+
+    if (title.length < 5) {
+      return {
+        success: false,
+        message:
+          "Post title must contain at least 5 characters.",
+      };
+    }
+
+    if (content.length < 20) {
+      return {
+        success: false,
+        message:
+          "Post content must contain at least 20 characters.",
       };
     }
 
@@ -42,20 +87,25 @@ export async function createPostAction(formData: FormData) {
       image,
     });
 
-    revalidatePath("/dashboard/posts");
-    revalidatePath("/dashboard");
     revalidatePath("/");
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/posts");
 
     return {
       success: true,
-      message: "Post created successfully",
+      message:
+        "Post created successfully.",
     };
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Create Post Error:",
+      error
+    );
 
     return {
       success: false,
-      message: "Failed to create post",
+      message:
+        "Something went wrong while creating the post.",
     };
   }
 }
@@ -65,19 +115,53 @@ export async function updatePostAction(
   formData: FormData
 ) {
   try {
-    const title = formData.get("title") as string;
-    const category = formData.get("category") as string;
-    const author = formData.get("author") as string;
-    const content = formData.get("content") as string;
+    const title = formData
+      .get("title")
+      ?.toString()
+      .trim();
+
+    const category = formData
+      .get("category")
+      ?.toString()
+      .trim();
+
+    const author = formData
+      .get("author")
+      ?.toString()
+      .trim();
+
+    const content = formData
+      .get("content")
+      ?.toString()
+      .trim();
 
     const tags =
-      (formData.get("tags") as string)
-        ?.split(",")
-        .map((tag) => tag.trim()) || [];
+      formData
+        .get("tags")
+        ?.toString()
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean) || [];
 
     const image =
-      (formData.get("image") as string) ||
+      formData
+        .get("image")
+        ?.toString()
+        .trim() ||
       "/images/placeholder.jpg";
+
+    if (
+      !title ||
+      !category ||
+      !author ||
+      !content
+    ) {
+      return {
+        success: false,
+        message:
+          "All required fields must be completed.",
+      };
+    }
 
     const updatedPost = updatePost(id, {
       title,
@@ -91,54 +175,71 @@ export async function updatePostAction(
     if (!updatedPost) {
       return {
         success: false,
-        message: "Post not found",
+        message:
+          "Post not found.",
       };
     }
 
-    revalidatePath("/dashboard/posts");
-    revalidatePath(`/dashboard/posts/edit/${id}`);
-    revalidatePath(`/blog/${id}`);
+    revalidatePath("/");
     revalidatePath("/dashboard");
+    revalidatePath("/dashboard/posts");
+    revalidatePath(
+      `/dashboard/posts/edit/${id}`
+    );
+    revalidatePath(`/blog/${id}`);
 
     return {
       success: true,
-      message: "Post updated successfully",
+      message:
+        "Post updated successfully.",
     };
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Update Post Error:",
+      error
+    );
 
     return {
       success: false,
-      message: "Failed to update post",
+      message:
+        "Something went wrong while updating the post.",
     };
   }
 }
 
-export async function deletePostAction(id: number) {
+export async function deletePostAction(
+  id: number
+) {
   try {
     const deleted = deletePost(id);
 
     if (!deleted) {
       return {
         success: false,
-        message: "Post not found",
+        message:
+          "Post not found.",
       };
     }
 
-    revalidatePath("/dashboard/posts");
-    revalidatePath("/dashboard");
     revalidatePath("/");
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/posts");
 
     return {
       success: true,
-      message: "Post deleted successfully",
+      message:
+        "Post deleted successfully.",
     };
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Delete Post Error:",
+      error
+    );
 
     return {
       success: false,
-      message: "Failed to delete post",
+      message:
+        "Something went wrong while deleting the post.",
     };
   }
 }

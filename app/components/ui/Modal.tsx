@@ -26,13 +26,23 @@ export default function Modal({
     };
 
     if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
+      document.addEventListener(
+        "keydown",
+        handleEscape
+      );
+
+      document.body.style.overflow =
+        "hidden";
     }
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "auto";
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
+
+      document.body.style.overflow =
+        "auto";
     };
   }, [isOpen, onClose]);
 
@@ -40,41 +50,162 @@ export default function Modal({
 
   const sizes = {
     sm: "max-w-md",
-    md: "max-w-lg",
-    lg: "max-w-2xl",
-    xl: "max-w-4xl",
+    md: "max-w-xl",
+    lg: "max-w-3xl",
+    xl: "max-w-5xl",
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="
+        fixed
+        inset-0
+        z-50
+        flex
+        items-center
+        justify-center
+        p-4
+      "
       onClick={onClose}
     >
+      {/* Premium Backdrop */}
+      <div
+        className="
+          absolute
+          inset-0
+          bg-slate-950/55
+          backdrop-blur-md
+          animate-in
+          fade-in
+          duration-300
+        "
+      />
+
+      {/* Modal */}
       <div
         className={`
-          bg-white
-          rounded-xl
-          shadow-xl
+          relative
           w-full
+          overflow-hidden
+          rounded-3xl
+          border
+          border-slate-200/70
+          bg-white/95
+          backdrop-blur-xl
+          shadow-2xl
+          shadow-slate-900/15
           ${sizes[size]}
-          animate-in fade-in zoom-in duration-200
+          animate-in
+          fade-in
+          zoom-in-95
+          duration-300
         `}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) =>
+          e.stopPropagation()
+        }
       >
-        <div className="flex items-center justify-between border-b px-6 py-4">
-          <h2 className="text-lg font-semibold text-gray-900">
-            {title}
-          </h2>
+        {/* Top Accent */}
+        <div
+          className="
+            absolute
+            top-0
+            left-0
+            h-1
+            w-full
+            bg-linear-to-r
+            from-indigo-500
+            via-blue-500
+            to-violet-500
+          "
+        />
+
+        {/* Background Glow */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            -right-16
+            -top-16
+            h-40
+            w-40
+            rounded-full
+            bg-indigo-100/50
+            blur-3xl
+          "
+        />
+
+        {/* Header */}
+        <div
+          className="
+            relative
+            flex
+            items-center
+            justify-between
+            border-b
+            border-slate-200/70
+            px-6
+            py-5
+          "
+        >
+          <div>
+            {title && (
+              <h2
+                className="
+                  text-xl
+                  font-bold
+                  tracking-tight
+                  text-slate-900
+                "
+              >
+                {title}
+              </h2>
+            )}
+
+            <p
+              className="
+                mt-1
+                text-sm
+                text-slate-500
+              "
+            >
+              Manage and review details
+            </p>
+          </div>
 
           <button
             onClick={onClose}
-            className="rounded-md p-1 hover:bg-gray-100"
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-xl
+              border
+              border-slate-200
+              bg-white
+              text-slate-500
+              transition-all
+              duration-200
+              hover:bg-slate-50
+              hover:text-slate-700
+              hover:shadow-md
+            "
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
-        <div className="p-6">{children}</div>
+        {/* Body */}
+        <div
+          className="
+            relative
+            p-6
+            text-slate-700
+          "
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

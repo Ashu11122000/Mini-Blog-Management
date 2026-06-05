@@ -8,16 +8,31 @@ import {
 
 export async function GET() {
   try {
-    const analytics = getAnalyticsSummary();
+    const analytics =
+      getAnalyticsSummary();
 
-    return NextResponse.json(analytics, {
-      status: 200,
-    });
-  } catch (error) {
     return NextResponse.json(
       {
-        message: "Failed to fetch analytics",
-        error,
+        success: true,
+        data: analytics,
+        timestamp:
+          new Date().toISOString(),
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error(
+      "Analytics API Error:",
+      error
+    );
+
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          "Failed to fetch analytics data.",
       },
       {
         status: 500,

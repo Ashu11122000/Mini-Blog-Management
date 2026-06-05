@@ -5,12 +5,18 @@ import {
   useContext,
   useState,
   ReactNode,
+  useCallback,
 } from "react";
 
 import Toast from "./Toast";
 
 interface ToastContextType {
   showToast: (message: string) => void;
+}
+
+interface ToastItem {
+  id: number;
+  message: string;
 }
 
 const ToastContext =
@@ -21,29 +27,65 @@ export function ToastProvider({
 }: {
   children: ReactNode;
 }) {
-  const [message, setMessage] =
-    useState<string | null>(null);
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
 
-  const showToast = (msg: string) => {
-    setMessage(msg);
+  const removeToast = useCallback((id: number) => {
+    setToasts((prev) =>
+      prev.filter((toast) => toast.id !== id)
+    );
+  }, []);
+
+  const showToast = useCallback((message: string) => {
+    const id = Date.now();
+
+    setToasts((prev) => [
+      ...prev,
+      {
+        id,
+        message,
+      },
+    ]);
 
     setTimeout(() => {
-      setMessage(null);
-    }, 3000);
-  };
+      removeToast(id);
+    }, 4000);
+  }, [removeToast]);
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
 
-      {message && (
-        <div className="fixed right-4 top-4 z-50">
-          <Toast
-            message={message}
-            onClose={() => setMessage(null)}
-          />
-        </div>
-      )}
+      <div
+        className="
+          fixed
+          top-5
+          right-5
+          z-9999
+          flex
+          w-full
+          max-w-md
+          flex-col
+          gap-3
+          px-4
+          sm:px-0
+        "
+      >
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className="
+              animate-[toast-slide-in_0.35s_ease-out]
+            "
+          >
+            <Toast
+              message={toast.message}
+              onClose={() =>
+                removeToast(toast.id)
+              }
+            />
+          </div>
+        ))}
+      </div>
     </ToastContext.Provider>
   );
 }
