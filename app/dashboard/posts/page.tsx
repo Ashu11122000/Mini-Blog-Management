@@ -1,14 +1,13 @@
 import PostList from "../../components/posts/PostList";
-import { getPosts } from "../../services/postService";
+import { getAllPosts } from "../../services/postService";
 
-export default async function PostsPage() {
-    const posts = await getPosts();
+export default function PostsPage() {
+    const posts = getAllPosts();
 
     return (
         <div className="space-y-10">
             {/* Hero Section */}
             <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/80 p-8 md:p-10 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-                {/* Decorative Background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-50 via-white to-cyan-50 opacity-90" />
 
                 <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
@@ -23,7 +22,6 @@ export default async function PostsPage() {
                         </p>
                     </div>
 
-                    {/* Stats */}
                     <div className="flex flex-wrap gap-4">
                         <div className="rounded-2xl border border-violet-200 bg-violet-50 px-6 py-4">
                             <p className="text-xs uppercase tracking-wider text-violet-500">
