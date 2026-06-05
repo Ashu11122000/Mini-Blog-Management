@@ -1,8 +1,28 @@
 export interface DashboardStat {
     title: string;
+
     value: number;
+
     change: string;
-    icon: "file" | "eye" | "message" | "folder";
+
+    trend: "up" | "down" | "neutral";
+
+    icon:
+        | "file"
+        | "eye"
+        | "message"
+        | "folder";
+
+    description?: string;
+
+    color?:
+        | "indigo"
+        | "emerald"
+        | "amber"
+        | "violet"
+        | "cyan";
+
+    lastUpdated?: string;
 }
 
 export interface RecentPost {
@@ -12,5 +32,5 @@ export interface RecentPost {
     views: number;
     comments: number;
     date: string;
-    status: "Published" | "Draft";
+    status: "Published" | "Draft" | "Review";
 }

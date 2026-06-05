@@ -17,16 +17,54 @@ export default function Badge({
   className = "",
 }: BadgeProps) {
   const variants = {
-    primary:
-      "bg-blue-100 text-blue-800",
-    success:
-      "bg-green-100 text-green-800",
-    warning:
-      "bg-yellow-100 text-yellow-800",
-    danger:
-      "bg-red-100 text-red-800",
-    secondary:
-      "bg-gray-100 text-gray-800",
+    primary: `
+      bg-gradient-to-r
+      from-indigo-50
+      to-blue-50
+      text-indigo-700
+      border border-indigo-200/70
+      shadow-indigo-100
+    `,
+    success: `
+      bg-gradient-to-r
+      from-emerald-50
+      to-green-50
+      text-emerald-700
+      border border-emerald-200/70
+      shadow-emerald-100
+    `,
+    warning: `
+      bg-gradient-to-r
+      from-amber-50
+      to-yellow-50
+      text-amber-700
+      border border-amber-200/70
+      shadow-amber-100
+    `,
+    danger: `
+      bg-gradient-to-r
+      from-rose-50
+      to-red-50
+      text-rose-700
+      border border-rose-200/70
+      shadow-rose-100
+    `,
+    secondary: `
+      bg-gradient-to-r
+      from-slate-50
+      to-gray-50
+      text-slate-700
+      border border-slate-200/80
+      shadow-slate-100
+    `,
+  };
+
+  const dots = {
+    primary: "bg-indigo-500",
+    success: "bg-emerald-500",
+    warning: "bg-amber-500",
+    danger: "bg-rose-500",
+    secondary: "bg-slate-500",
   };
 
   return (
@@ -34,16 +72,34 @@ export default function Badge({
       className={`
         inline-flex
         items-center
+        gap-2
         rounded-full
-        px-3
-        py-1
+        px-3.5
+        py-1.5
         text-xs
-        font-medium
+        font-semibold
+        tracking-wide
+        backdrop-blur-sm
+        shadow-sm
+        transition-all
+        duration-300
+        hover:scale-105
+        hover:shadow-md
         ${variants[variant]}
         ${className}
       `}
     >
-      {children}
+      <span
+        className={`
+          h-2
+          w-2
+          rounded-full
+          shadow-sm
+          ${dots[variant]}
+        `}
+      />
+
+      <span>{children}</span>
     </span>
   );
 }

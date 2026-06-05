@@ -18,13 +18,15 @@ export async function createCommentAction(
       formData.get("postId")
     );
 
-    const author = formData.get(
-      "author"
-    ) as string;
+    const author = formData
+      .get("author")
+      ?.toString()
+      .trim();
 
-    const content = formData.get(
-      "content"
-    ) as string;
+    const content = formData
+      .get("content")
+      ?.toString()
+      .trim();
 
     if (
       !postId ||
@@ -34,7 +36,23 @@ export async function createCommentAction(
       return {
         success: false,
         message:
-          "Post ID, author, and content are required",
+          "Post, author, and comment content are required.",
+      };
+    }
+
+    if (author.length < 2) {
+      return {
+        success: false,
+        message:
+          "Author name must contain at least 2 characters.",
+      };
+    }
+
+    if (content.length < 5) {
+      return {
+        success: false,
+        message:
+          "Comment content must contain at least 5 characters.",
       };
     }
 
@@ -44,20 +62,25 @@ export async function createCommentAction(
       content,
     });
 
+    revalidatePath("/dashboard");
     revalidatePath("/dashboard/comments");
     revalidatePath(`/blog/${postId}`);
-    revalidatePath("/dashboard");
 
     return {
       success: true,
-      message: "Comment created successfully",
+      message:
+        "Comment created successfully.",
     };
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Create Comment Error:",
+      error
+    );
 
     return {
       success: false,
-      message: "Failed to create comment",
+      message:
+        "Something went wrong while creating the comment.",
     };
   }
 }
@@ -67,42 +90,56 @@ export async function updateCommentAction(
   formData: FormData
 ) {
   try {
-    const author = formData.get(
-      "author"
-    ) as string;
+    const author = formData
+      .get("author")
+      ?.toString()
+      .trim();
 
-    const content = formData.get(
-      "content"
-    ) as string;
+    const content = formData
+      .get("content")
+      ?.toString()
+      .trim();
 
-    const updatedComment = updateComment(
-      id,
-      {
+    if (!author || !content) {
+      return {
+        success: false,
+        message:
+          "Author and comment content are required.",
+      };
+    }
+
+    const updatedComment =
+      updateComment(id, {
         author,
         content,
-      }
-    );
+      });
 
     if (!updatedComment) {
       return {
         success: false,
-        message: "Comment not found",
+        message:
+          "Comment not found.",
       };
     }
 
-    revalidatePath("/dashboard/comments");
     revalidatePath("/dashboard");
+    revalidatePath("/dashboard/comments");
 
     return {
       success: true,
-      message: "Comment updated successfully",
+      message:
+        "Comment updated successfully.",
     };
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Update Comment Error:",
+      error
+    );
 
     return {
       success: false,
-      message: "Failed to update comment",
+      message:
+        "Something went wrong while updating the comment.",
     };
   }
 }
@@ -111,28 +148,35 @@ export async function deleteCommentAction(
   id: number
 ) {
   try {
-    const deleted = deleteComment(id);
+    const deleted =
+      deleteComment(id);
 
     if (!deleted) {
       return {
         success: false,
-        message: "Comment not found",
+        message:
+          "Comment not found.",
       };
     }
 
-    revalidatePath("/dashboard/comments");
     revalidatePath("/dashboard");
+    revalidatePath("/dashboard/comments");
 
     return {
       success: true,
-      message: "Comment deleted successfully",
+      message:
+        "Comment deleted successfully.",
     };
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Delete Comment Error:",
+      error
+    );
 
     return {
       success: false,
-      message: "Failed to delete comment",
+      message:
+        "Something went wrong while deleting the comment.",
     };
   }
 }
